@@ -1,6 +1,7 @@
 package com.example.braintrainer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -15,6 +16,10 @@ public class MainActivity<intIndexOfCorrectAns> extends AppCompatActivity {
 
     Button btnGo;
     Button btnPlayAgain;
+    Button btnA;
+    Button btnB;
+    Button btnC;
+    Button btnD;
     TextView tvEquation;
     TextView tvRemark;
     TextView tvScore;
@@ -28,14 +33,24 @@ public class MainActivity<intIndexOfCorrectAns> extends AppCompatActivity {
     int intNoOfQuestions = 0;
     int intCorrectAns = 0;
     String strScore = "";
-    public void playAgain(){
+    ConstraintLayout clGameLayout;
+
+    public void playAgain(View view){
 
         newQuestion();
 
         intNoOfCorrectAns = 0;
         intNoOfQuestions = 0;
         strScore = intNoOfCorrectAns + "/" + intNoOfQuestions;
-        new CountDownTimer(33000,1000){
+        tvScore.setText(strScore);
+        tvRemark.setText("");
+        btnPlayAgain.setVisibility(View.INVISIBLE);
+        btnA.setEnabled(true);
+        btnB.setEnabled(true);
+        btnC.setEnabled(true);
+        btnD.setEnabled(true);
+
+        new CountDownTimer(31000,1000){
             @Override
             public void onTick(long millisUntilFinished) {
                 tvTimer.setText(String.valueOf(millisUntilFinished/1000)+"s");
@@ -45,6 +60,10 @@ public class MainActivity<intIndexOfCorrectAns> extends AppCompatActivity {
             public void onFinish() {
                 tvRemark.setText("Done!");
                 btnPlayAgain.setVisibility(View.VISIBLE);
+                btnA.setEnabled(false);
+                btnB.setEnabled(false);
+                btnC.setEnabled(false);
+                btnD.setEnabled(false);
             }
 
         }.start();
@@ -68,6 +87,8 @@ public class MainActivity<intIndexOfCorrectAns> extends AppCompatActivity {
 
     public void start(View view) {
         btnGo.setVisibility(View.INVISIBLE);
+        clGameLayout.setVisibility(View.VISIBLE);
+        playAgain(view);
     }
 
     @Override
@@ -82,14 +103,17 @@ public class MainActivity<intIndexOfCorrectAns> extends AppCompatActivity {
         btnPlayAgain = findViewById(R.id.btnPlayAgain);
         btnPlayAgain.setVisibility(View.INVISIBLE);
         btnGo.setVisibility(View.VISIBLE);
-
-    }
+        clGameLayout = findViewById(R.id.clGameLayout);
+        clGameLayout.setVisibility(View.INVISIBLE);
+        }
 
     private void assignAnswers(){
-        Button btnA = findViewById(R.id.btnA);
-        Button btnB = findViewById(R.id.btnB);
-        Button btnC = findViewById(R.id.btnC);
-        Button btnD = findViewById(R.id.btnD);
+
+        btnA = findViewById(R.id.btnA);
+        btnB = findViewById(R.id.btnB);
+        btnC = findViewById(R.id.btnC);
+        btnD = findViewById(R.id.btnD);
+
         btnA.setText(Integer.toString(intarrlstAnswers.get(0)));
         btnB.setText(Integer.toString(intarrlstAnswers.get(1)));
         btnC.setText(Integer.toString(intarrlstAnswers.get(2)));
